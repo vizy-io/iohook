@@ -3,11 +3,13 @@ const path = require('path');
 
 const runtime = process.versions['electron'] ? 'electron' : 'node';
 const essential = runtime + '-v' + process.versions.modules + '-' + process.platform + '-' + process.arch;
-const modulePath = path.join(__dirname, 'builds', essential, 'build', 'Release', 'iohook.node');
+
+let modulePath = path.join(__dirname, 'builds', essential, 'build', 'Release', 'iohook.node');
+modulePath = path.join(require('electron').remote.app.getAppPath(), 'node_modules', 'iohook', modulePath)
 if (process.env.DEBUG) {
   console.info('Loading native binary:', modulePath);
 }
-let NodeHookAddon = require(modulePath);
+let NodeHookAddon = require('electron').remote.require(modulePath);
 
 const events = {
   3: 'keypress',
