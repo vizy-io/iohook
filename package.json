@@ -1,5 +1,5 @@
 {
-  "name": "iohook",
+  "name": "@vizy.io/iohook",
   "version": "0.6.6",
   "description": "Node.js global keyboard and mouse hook",
   "main": "index.js",
@@ -8,15 +8,12 @@
     "install": "node install.js",
     "install-all": "node install.js --all",
     "build": "cmake-js compile",
-    "deploy": "node build.js",
+    "deploy": "GITHUB_ACCESS_TOKEN=21dd1d64666e4e9928a96de8b6123c16764ff865 node build.js",
     "test": "jest",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wilix-team/iohook.git"
-  },
+  "repository": "vizy-io/iohook",
   "keywords": [
     "hook",
     "electron",

@@ -106,7 +106,7 @@ function tarGz(runtime, abi) {
   :
     ['build/Release/iohook.node']
 
-  const tarPath = 'prebuilds/' + pkg.name + '-v' + pkg.version + '-' + runtime + '-v' + abi + '-' + process.platform + '-' + arch + '.tar.gz';
+  const tarPath = 'prebuilds/' + 'iohook' + '-v' + pkg.version + '-' + runtime + '-v' + abi + '-' + process.platform + '-' + arch + '.tar.gz';
 
   files.push(tarPath)
 
