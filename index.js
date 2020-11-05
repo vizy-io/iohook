@@ -5,12 +5,14 @@ const pkg = require('./package.json');
 const runtime = process.versions['electron'] ? 'electron' : 'node';
 const essential = runtime + '-v' + process.versions.modules + '-' + process.platform + '-' + process.arch;
 
-let modulePath = path.join(__dirname, 'builds', essential, 'build', 'Release', 'iohook.node');
-modulePath = path.join(require('electron').remote.app.getAppPath(), 'node_modules', pkg.name, modulePath)
-let NodeHookAddon = require('electron').remote.require(modulePath);
-if (process.env.DEBUG) {
-  console.info('Loading native binary:', modulePath);
-}
+// let modulePath = path.join(__dirname, 'builds', essential, 'build', 'Release', 'iohook.node');
+// modulePath = path.join(require('electron').remote.app.getAppPath(), 'node_modules', pkg.name, modulePath)
+// let NodeHookAddon = require('electron').remote.require(modulePath);
+// if (process.env.DEBUG) {
+//   console.info('Loading native binary:', modulePath);
+// }
+
+let NodeHookAddon;
 
 const events = {
   3: 'keypress',
@@ -37,8 +39,8 @@ class IOHook extends EventEmitter {
     this.lastKeydownCtrl = false;
     this.lastKeydownMeta = false;
 
-    this.load();
-    this.setDebug(false);
+    // this.load();
+    // this.setDebug(true);
   }
 
   /**
@@ -46,6 +48,9 @@ class IOHook extends EventEmitter {
    * @param {boolean} [enableLogger] Turn on debug logging
    */
   start(enableLogger) {
+    this.load();
+    this.setDebug(true);
+
     if (!this.active) {
       this.active = true;
       this.setDebug(enableLogger);
@@ -145,7 +150,15 @@ class IOHook extends EventEmitter {
    * Load native module
    */
   load() {
-    NodeHookAddon.startHook(this._handler.bind(this), this.debug || false);
+    let modulePath = path.join(__dirname, 'builds', essential, 'build', 'Release', 'iohook.node');
+    modulePath = path.join(require('electron').remote.app.getAppPath(), 'node_modules', pkg.name, modulePath)
+    NodeHookAddon = require('electron').remote.require(modulePath);
+    if (process.env.DEBUG) {
+      console.info('Loading native binary:', modulePath);
+    }
+    console.log('loading iohook')
+          
+    const val = NodeHookAddon.startHook(this._handler.bind(this), this.debug || true);
   }
 
   /**
